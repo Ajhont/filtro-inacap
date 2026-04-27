@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
@@ -20,7 +20,25 @@ navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
 }).then(stream => {
   video.srcObject = stream;
+
+  video.onloadedmetadata = () => {
+    ajustarVideo();
+  };
 });
+
+// AJUSTE REAL (igual que canvas)
+function ajustarVideo() {
+  const vw = video.videoWidth;
+  const vh = video.videoHeight;
+
+  const screenW = window.innerWidth;
+  const screenH = window.innerHeight;
+
+  const scale = Math.max(screenW / vw, screenH / vh);
+
+  video.style.width = vw * scale + "px";
+  video.style.height = vh * scale + "px";
+}
 
 // cambiar personaje
 changeBtn.addEventListener("click", () => {
@@ -28,32 +46,31 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// COMPARTIR SIN DISTORSIÓN
+// COMPARTIR (MISMA LÓGICA EXACTA)
 shareBtn.addEventListener("click", async () => {
 
   const vw = video.videoWidth;
   const vh = video.videoHeight;
 
-  const canvasWidth = 1080;
-  const canvasHeight = 1920;
+  const cw = 1080;
+  const ch = 1920;
 
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
+  canvas.width = cw;
+  canvas.height = ch;
 
   const ctx = canvas.getContext("2d");
 
-  // COVER REAL (tipo CSS cover)
-  const scale = Math.max(canvasWidth / vw, canvasHeight / vh);
+  const scale = Math.max(cw / vw, ch / vh);
 
-  const scaledWidth = vw * scale;
-  const scaledHeight = vh * scale;
+  const sw = vw * scale;
+  const sh = vh * scale;
 
-  const dx = (canvasWidth - scaledWidth) / 2;
-  const dy = (canvasHeight - scaledHeight) / 2;
+  const dx = (cw - sw) / 2;
+  const dy = (ch - sh) / 2;
 
-  ctx.drawImage(video, dx, dy, scaledWidth, scaledHeight);
+  ctx.drawImage(video, dx, dy, sw, sh);
 
-  // TEXTO CONSISTENTE
+  // TEXTO
   ctx.textAlign = "center";
 
   ctx.fillStyle = "white";
@@ -72,13 +89,13 @@ shareBtn.addEventListener("click", async () => {
 
   img.onload = async () => {
 
-    const width = 900;
-    const height = 900;
+    const width = 800;
+    const height = 800;
 
     ctx.drawImage(
       img,
-      (canvasWidth - width) / 2,
-      canvasHeight - height + 120,
+      (cw - width) / 2,
+      ch - height + 80,
       width,
       height
     );
