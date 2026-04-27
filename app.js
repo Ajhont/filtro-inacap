@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
@@ -23,7 +23,7 @@ navigator.mediaDevices.getUserMedia({
   video.onloadedmetadata = () => ajustarVideo();
 });
 
-// 🔥 AJUSTE VISUAL (preview)
+// PREVIEW (más abierto)
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -31,13 +31,13 @@ function ajustarVideo() {
   const sw = window.innerWidth;
   const sh = window.innerHeight;
 
-  const scale = Math.max(sw / vw, sh / vh) * 0.85;
+  const scale = Math.max(sw / vw, sh / vh) * 0.9;
 
   video.style.width = vw * scale + "px";
   video.style.height = vh * scale + "px";
 }
 
-// CAMBIAR PERSONAJE
+// CAMBIAR
 changeBtn.addEventListener("click", () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
@@ -57,23 +57,20 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // 🔥 COVER PERFECTO (sin barras negras)
+  // 🔥 SCALE MÁS GRANDE PARA ELIMINAR NEGRO
   let scale = Math.max(cw / vw, ch / vh);
-  scale *= 0.85;
+  scale *= 1.15; // 👈 clave (overfill)
 
   const sw = vw * scale;
   const sh = vh * scale;
 
+  // 👇 mover levemente hacia arriba para compensar IG
   const dx = (cw - sw) / 2;
-  const dy = (ch - sh) / 2;
-
-  // fondo negro total (evita espacios)
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, cw, ch);
+  const dy = (ch - sh) / 2 - 120;
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // 🔥 CAJA TEXTO
+  // HEADER
   const boxWidth = 900;
   const boxHeight = 300;
   const boxX = (cw - boxWidth) / 2;
@@ -99,18 +96,18 @@ captureBtn.addEventListener("click", async () => {
 
   ctx.shadowBlur = 0;
 
-  // 🔥 INACAPITO (NO CORTADO)
+  // INACAPITO (más grande y seguro)
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
-    const width = 1100;
+    const width = 1200; // 👈 más grande
     const aspect = img.height / img.width;
     const height = width * aspect;
 
     const x = (cw - width) / 2;
-    const y = ch - height + 80;
+    const y = ch - height + 120; // 👈 sube un poco
 
     ctx.drawImage(img, x, y, width, height);
 
@@ -128,7 +125,7 @@ captureBtn.addEventListener("click", async () => {
   };
 });
 
-// RECTÁNGULO REDONDEADO
+// RECT
 function roundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
