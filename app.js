@@ -6,27 +6,24 @@ const changeBtn = document.getElementById("change");
 const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
 
-// cámara
+// CAMARA
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
 }).then(stream => {
   video.srcObject = stream;
-
-  video.onloadedmetadata = () => {
-    ajustarVideo();
-  };
+  video.onloadedmetadata = () => ajustarVideo();
 });
 
-// 🔥 ajuste con zoom reducido (más amplitud)
+// 🔥 ZOOM MÁS ABIERTO
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -34,19 +31,19 @@ function ajustarVideo() {
   const sw = window.innerWidth;
   const sh = window.innerHeight;
 
-  const scale = Math.max(sw / vw, sh / vh) * 0.85;
+  const scale = Math.max(sw / vw, sh / vh) * 0.75;
 
   video.style.width = vw * scale + "px";
   video.style.height = vh * scale + "px";
 }
 
-// cambiar imagen
+// CAMBIAR PERSONAJE
 changeBtn.addEventListener("click", () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 });
 
-// capturar
+// CAPTURA
 captureBtn.addEventListener("click", async () => {
 
   const vw = video.videoWidth;
@@ -60,8 +57,7 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // 🔥 mismo ajuste que preview
-  const scale = Math.max(cw / vw, ch / vh) * 0.85;
+  const scale = Math.max(cw / vw, ch / vh) * 0.75;
 
   const sw = vw * scale;
   const sh = vh * scale;
@@ -71,43 +67,45 @@ captureBtn.addEventListener("click", async () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // gradiente
-  const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-  gradient.addColorStop(0, "rgba(0,0,0,0.6)");
-  gradient.addColorStop(1, "rgba(0,0,0,0)");
+  // 🔥 CAJA INSTAGRAM
+  const boxWidth = 900;
+  const boxHeight = 300;
+  const boxX = (cw - boxWidth) / 2;
+  const boxY = 80;
 
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, cw, 300);
+  ctx.fillStyle = "rgba(0,0,0,0.45)";
+  roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
+  ctx.fill();
 
-  // texto
+  // TEXTO
   ctx.textAlign = "center";
   ctx.shadowColor = "black";
-  ctx.shadowBlur = 10;
+  ctx.shadowBlur = 15;
 
   ctx.fillStyle = "white";
-  ctx.font = "bold 80px Arial";
-  ctx.fillText("¿QUÉ ÁREA", 540, 140);
+  ctx.font = "bold 75px Arial";
+  ctx.fillText("¿QUÉ ÁREA", cw / 2, boxY + 90);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", 540, 240);
+  ctx.fillText("INACAP", cw / 2, boxY + 180);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", 540, 340);
+  ctx.fillText("ERES?", cw / 2, boxY + 270);
 
   ctx.shadowBlur = 0;
 
-  // inacapito
+  // INACAPITO
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
-    const width = 1000;
+    const width = 1100;
     const aspect = img.height / img.width;
     const height = width * aspect;
 
     const x = (cw - width) / 2;
-    const y = ch - height + 140;
+    const y = ch - height + 180;
 
     ctx.drawImage(img, x, y, width, height);
 
@@ -124,3 +122,18 @@ captureBtn.addEventListener("click", async () => {
     });
   };
 });
+
+// 🔧 RECTÁNGULO REDONDEADO
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
