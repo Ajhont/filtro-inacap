@@ -13,7 +13,7 @@ body {
   overflow: hidden;
 }
 
-/* video tipo cover real */
+/* video */
 video {
   position: absolute;
   top: 50%;
@@ -21,21 +21,49 @@ video {
   transform: translate(-50%, -50%);
 }
 
-/* header */
+/* HEADER */
 .header {
   position: absolute;
-  top: 40px;
+  top: 0;
   width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   z-index: 10;
 }
 
+/* gradiente */
+.header::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.65),
+    rgba(0,0,0,0)
+  );
+}
+
+/* caja */
+.header-bg {
+  margin-top: 40px;
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+}
+
+/* texto */
 .header h1 {
-  font-size: 40px;
+  margin: 0;
+  font-size: 38px;
   font-weight: 900;
   line-height: 0.95;
+  text-align: center;
   color: white;
-  text-shadow: 0 0 20px black;
+  text-shadow:
+    0 2px 10px rgba(0,0,0,0.9),
+    0 0 2px rgba(0,0,0,1);
 }
 
 .header span {
@@ -45,25 +73,24 @@ video {
 /* inacapito */
 #inacapito {
   position: absolute;
-  bottom: -40px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  max-width: 500px;
+  width: 85%;
+  max-width: 520px;
   pointer-events: none;
 }
 
-/* CONTROLES INFERIORES */
+/* controles */
 .controls {
   position: absolute;
   bottom: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-/* botón cámara */
+/* botón principal */
 .main {
   width: 75px;
   height: 75px;
@@ -82,7 +109,6 @@ video {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  font-size: 18px;
 }
 
 /* animación */
