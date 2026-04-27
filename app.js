@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
@@ -26,7 +26,7 @@ navigator.mediaDevices.getUserMedia({
   };
 });
 
-// ajuste tipo cover
+// 🔥 ajuste con zoom reducido (más amplitud)
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -34,7 +34,7 @@ function ajustarVideo() {
   const sw = window.innerWidth;
   const sh = window.innerHeight;
 
-  const scale = Math.max(sw / vw, sh / vh);
+  const scale = Math.max(sw / vw, sh / vh) * 0.85;
 
   video.style.width = vw * scale + "px";
   video.style.height = vh * scale + "px";
@@ -60,7 +60,8 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  const scale = Math.max(cw / vw, ch / vh);
+  // 🔥 mismo ajuste que preview
+  const scale = Math.max(cw / vw, ch / vh) * 0.85;
 
   const sw = vw * scale;
   const sh = vh * scale;
@@ -70,7 +71,7 @@ captureBtn.addEventListener("click", async () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // gradiente superior
+  // gradiente
   const gradient = ctx.createLinearGradient(0, 0, 0, 300);
   gradient.addColorStop(0, "rgba(0,0,0,0.6)");
   gradient.addColorStop(1, "rgba(0,0,0,0)");
