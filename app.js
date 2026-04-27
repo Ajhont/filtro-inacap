@@ -3,14 +3,14 @@ const inacapito = document.getElementById("inacapito");
 const canvas = document.getElementById("canvas");
 
 const changeBtn = document.getElementById("change");
-const shareBtn = document.getElementById("share");
+const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
@@ -26,7 +26,7 @@ navigator.mediaDevices.getUserMedia({
   };
 });
 
-// ajustar video EXACTAMENTE como canvas
+// ajuste tipo cover (igual que canvas)
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -46,8 +46,8 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// compartir SIN DISTORSIÓN
-shareBtn.addEventListener("click", async () => {
+// capturar y compartir
+captureBtn.addEventListener("click", async () => {
 
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -60,7 +60,7 @@ shareBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // mismo cálculo que preview (CLAVE)
+  // cover real (sin deformar)
   const scale = Math.max(cw / vw, ch / vh);
 
   const sw = vw * scale;
@@ -71,7 +71,7 @@ shareBtn.addEventListener("click", async () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // TEXTO consistente
+  // texto
   ctx.textAlign = "center";
 
   ctx.fillStyle = "white";
@@ -84,22 +84,18 @@ shareBtn.addEventListener("click", async () => {
   ctx.fillStyle = "white";
   ctx.fillText("ERES?", 540, 350);
 
-  // inacapito PROPORCIONAL
+  // inacapito proporcional
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
     const width = 1000;
-
-    // mantener proporción real
     const aspect = img.height / img.width;
     const height = width * aspect;
 
     const x = (cw - width) / 2;
-
-    // NO cortar abajo
-    const y = ch - height + 150;
+    const y = ch - height + 140;
 
     ctx.drawImage(img, x, y, width, height);
 
