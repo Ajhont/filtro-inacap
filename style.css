@@ -9,15 +9,14 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 /* VIDEO */
 video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 clave */
 }
 
 /* HEADER */
@@ -27,37 +26,21 @@ video {
   width: 100%;
   display: flex;
   justify-content: center;
-  z-index: 10;
-}
-
-.header::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.7),
-    rgba(0,0,0,0)
-  );
 }
 
 .header-bg {
-  margin-top: 50px;
-  padding: 14px 22px;
+  margin-top: 40px;
+  padding: 14px 20px;
   border-radius: 20px;
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.4);
 }
 
 .header h1 {
   margin: 0;
-  font-size: 40px;
-  font-weight: 900;
-  line-height: 0.95;
+  font-size: 36px;
+  line-height: 1;
   text-align: center;
   color: white;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.9);
 }
 
 .header span {
@@ -67,42 +50,27 @@ video {
 /* INACAPITO */
 #inacapito {
   position: absolute;
-  bottom: -10px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 95%;
-  max-width: 650px;
-  pointer-events: none;
+  width: 85%;
+  max-width: 550px;
 }
 
-/* CONTROLES */
+/* BOTONES */
 .controls {
   position: absolute;
-  bottom: 40px;
+  bottom: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
+  gap: 20px;
 }
 
-.main {
-  width: 80px;
-  height: 80px;
+button {
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  border: 6px solid white;
-  background: rgba(255,255,255,0.1);
-  font-size: 30px;
-}
-
-.mini {
-  position: absolute;
-  left: 20px;
-  bottom: 10px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
-}
-
-.main:active {
-  transform: scale(0.9);
+  border: none;
+  font-size: 28px;
 }
