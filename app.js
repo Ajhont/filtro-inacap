@@ -1,6 +1,8 @@
 const video = document.getElementById("camera");
 const inacapito = document.getElementById("inacapito");
 const canvas = document.getElementById("canvas");
+
+const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
@@ -13,48 +15,42 @@ const images = [
 
 let index = 0;
 
-// activar cámara
+// cámara
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
 }).then(stream => {
   video.srcObject = stream;
 });
 
-// cambiar personaje
-document.body.addEventListener("click", () => {
+// cambiar carrera
+changeBtn.addEventListener("click", () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 });
 
-// compartir imagen
+// compartir
 shareBtn.addEventListener("click", async () => {
 
-  canvas.width = video.videoWidth * 2;
-  canvas.height = video.videoHeight * 2;
+  canvas.width = 1080;
+  canvas.height = 1920;
 
   const ctx = canvas.getContext("2d");
-  ctx.scale(2, 2);
 
-  ctx.drawImage(video, 0, 0);
+  // dibujar cámara
+  ctx.drawImage(video, 0, 0, 1080, 1920);
 
+  // texto
+  ctx.fillStyle = "white";
+  ctx.font = "bold 60px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("¿QUÉ ÁREA INACAP ERES?", 540, 120);
+
+  // imagen
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
-
-    ctx.imageSmoothingQuality = "high";
-
-    // posición y tamaño grande
-    const width = video.videoWidth * 0.4;
-    const height = video.videoHeight * 0.4;
-
-    ctx.drawImage(
-      img,
-      video.videoWidth * 0.55,
-      video.videoHeight * 0.55,
-      width,
-      height
-    );
+    ctx.drawImage(img, 200, 1100, 700, 700);
 
     canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
@@ -62,11 +58,9 @@ shareBtn.addEventListener("click", async () => {
       if (navigator.share) {
         await navigator.share({
           files: [file],
-          title: "Mi área INACAP",
-          text: "Descubre tu área en INACAP 🚀"
+          title: "INACAP",
+          text: "Descubre tu área 🚀"
         });
-      } else {
-        alert("Tu celular no permite compartir directo 😢");
       }
     });
   };
