@@ -12,50 +12,54 @@ video {
   object-fit: cover;
 }
 
-/* header estilo instagram */
+/* HEADER GRANDE PRO */
 .header {
   position: fixed;
   top: 30px;
   width: 100%;
   text-align: center;
-  color: white;
+  z-index: 10;
 }
 
 .header h1 {
-  font-size: 28px;
-  font-weight: bold;
-  text-shadow: 0 0 10px black;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.05;
+  color: white;
+  text-shadow: 0 0 20px rgba(0,0,0,0.9);
 }
 
 .header span {
   color: #E30613;
 }
 
-/* inacapito GRANDE */
+/* INACAPITO PEGADO ABAJO */
 #inacapito {
   position: fixed;
-  bottom: 10%;
+  bottom: -40px; /* CLAVE: sobresale desde abajo */
   left: 50%;
   transform: translateX(-50%);
-  width: 65%;
-  max-width: 400px;
+  width: 85%;
+  max-width: 500px;
+  pointer-events: none;
+  z-index: 5;
 }
 
-/* botones */
+/* BOTONES ARRIBA (NO MOLESTAN) */
 .controls {
   position: fixed;
-  bottom: 30px;
-  width: 100%;
+  top: 20px;
+  right: 15px;
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  gap: 10px;
+  z-index: 20;
 }
 
 button {
-  background: #E30613;
+  background: rgba(0,0,0,0.6);
   color: white;
   border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
 }
