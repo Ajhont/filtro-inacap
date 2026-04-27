@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
-  "assets/admin.png",
-  "assets/mecanica.png",
-  "assets/gastronomia.png",
-  "assets/informatica.png",
-  "assets/logistica.png"
+  "assets/inacapito6.png",
+  "assets/inacapito2.png",
+  "assets/inacapito3.png",
+  "assets/inacapito4.png",
+  "assets/inacapito5.png"
 ];
 
 let index = 0;
