@@ -26,7 +26,7 @@ navigator.mediaDevices.getUserMedia({
   };
 });
 
-// AJUSTE REAL (igual que canvas)
+// ajustar video EXACTAMENTE como canvas
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -46,7 +46,7 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// COMPARTIR (MISMA LÓGICA EXACTA)
+// compartir SIN DISTORSIÓN
 shareBtn.addEventListener("click", async () => {
 
   const vw = video.videoWidth;
@@ -60,6 +60,7 @@ shareBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
+  // mismo cálculo que preview (CLAVE)
   const scale = Math.max(cw / vw, ch / vh);
 
   const sw = vw * scale;
@@ -70,7 +71,7 @@ shareBtn.addEventListener("click", async () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // TEXTO
+  // TEXTO consistente
   ctx.textAlign = "center";
 
   ctx.fillStyle = "white";
@@ -83,22 +84,24 @@ shareBtn.addEventListener("click", async () => {
   ctx.fillStyle = "white";
   ctx.fillText("ERES?", 540, 350);
 
-  // inacapito
+  // inacapito PROPORCIONAL
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
-    const width = 800;
-    const height = 800;
+    const width = 1000;
 
-    ctx.drawImage(
-      img,
-      (cw - width) / 2,
-      ch - height + 80,
-      width,
-      height
-    );
+    // mantener proporción real
+    const aspect = img.height / img.width;
+    const height = width * aspect;
+
+    const x = (cw - width) / 2;
+
+    // NO cortar abajo
+    const y = ch - height + 150;
+
+    ctx.drawImage(img, x, y, width, height);
 
     canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
