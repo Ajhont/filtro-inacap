@@ -28,29 +28,41 @@ document.body.addEventListener("click", () => {
 });
 
 // 📸 Capturar imagen
-captureBtn.addEventListener("click", () => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+const shareBtn = document.getElementById("share");
+
+shareBtn.addEventListener("click", async () => {
+  canvas.width = video.videoWidth * 2;
+  canvas.height = video.videoHeight * 2;
 
   const ctx = canvas.getContext("2d");
+  ctx.scale(2, 2);
 
   ctx.drawImage(video, 0, 0);
 
   const img = new Image();
   img.src = inacapito.src;
 
-  img.onload = () => {
+  img.onload = async () => {
     ctx.drawImage(
       img,
-      canvas.width * 0.65,
-      canvas.height * 0.65,
-      canvas.width * 0.3,
-      canvas.height * 0.3
+      canvas.width / 2 * 0.65,
+      canvas.height / 2 * 0.65,
+      canvas.width / 2 * 0.35,
+      canvas.height / 2 * 0.35
     );
 
-    const link = document.createElement("a");
-    link.download = "inacap.png";
-    link.href = canvas.toDataURL();
-    link.click();
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], "inacap.png", { type: "image/png" });
+
+      if (navigator.share) {
+        await navigator.share({
+          files: [file],
+          title: "Mi área INACAP",
+          text: "Descubre tu área en INACAP 🚀"
+        });
+      } else {
+        alert("Tu navegador no permite compartir directo 😢");
+      }
+    });
   };
 });
