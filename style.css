@@ -13,7 +13,7 @@ body {
   overflow: hidden;
 }
 
-/* video tipo cover REAL */
+/* video tipo cover real */
 video {
   position: absolute;
   top: 50%;
@@ -42,7 +42,7 @@ video {
   color: #E30613;
 }
 
-/* inacapito más grande */
+/* inacapito */
 #inacapito {
   position: absolute;
   bottom: -40px;
@@ -53,21 +53,39 @@ video {
   pointer-events: none;
 }
 
-/* botones */
+/* CONTROLES INFERIORES */
 .controls {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  bottom: 30px;
+  width: 100%;
   display: flex;
-  gap: 12px;
-  z-index: 20;
+  justify-content: center;
+  align-items: center;
 }
 
-button {
-  background: #E30613;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 25px;
-  font-weight: bold;
+/* botón cámara */
+.main {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  border: 5px solid white;
+  background: rgba(255,255,255,0.1);
+  font-size: 28px;
+}
+
+/* botón cambiar */
+.mini {
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+}
+
+/* animación */
+.main:active {
+  transform: scale(0.9);
 }
