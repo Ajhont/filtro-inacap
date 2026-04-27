@@ -12,39 +12,50 @@ video {
   object-fit: cover;
 }
 
-/* inacapito GRANDE y bien posicionado */
-#inacapito {
+/* header estilo instagram */
+.header {
   position: fixed;
-  bottom: 2%;
-  right: 2%;
-  width: 45%;
-  max-width: 300px;
-  pointer-events: none;
-}
-
-/* texto superior */
-.info {
-  position: fixed;
-  top: 15px;
+  top: 30px;
   width: 100%;
   text-align: center;
   color: white;
-  font-weight: bold;
-  font-size: 16px;
-  text-shadow: 0px 0px 5px black;
 }
 
-/* botón compartir */
-#share {
+.header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  text-shadow: 0 0 10px black;
+}
+
+.header span {
+  color: #E30613;
+}
+
+/* inacapito GRANDE */
+#inacapito {
   position: fixed;
-  bottom: 20px;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
+  width: 65%;
+  max-width: 400px;
+}
+
+/* botones */
+.controls {
+  position: fixed;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button {
   background: #E30613;
   color: white;
   border: none;
-  padding: 14px 25px;
-  border-radius: 30px;
-  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 25px;
   font-weight: bold;
 }
