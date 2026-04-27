@@ -2,19 +2,28 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: Arial;
+  background: black;
 }
 
-/* cámara */
-video {
+/* CONTENEDOR REAL 9:16 */
+.container {
   position: fixed;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  overflow: hidden;
+}
+
+/* VIDEO COMO STORY REAL */
+video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* HEADER */
 .header {
-  position: fixed;
+  position: absolute;
   top: 40px;
   width: 100%;
   text-align: center;
@@ -22,7 +31,7 @@ video {
 }
 
 .header h1 {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
   line-height: 0.95;
   color: white;
@@ -35,22 +44,21 @@ video {
 
 /* INACAPITO */
 #inacapito {
-  position: fixed;
-  bottom: -80px;
+  position: absolute;
+  bottom: -60px;
   left: 50%;
   transform: translateX(-50%);
-  width: 85%;
-  max-width: 450px;
-  pointer-events: none;
+  width: 70%;
+  max-width: 420px;
 }
 
-/* BOTONES GRANDES (ARREGLADO) */
+/* BOTONES VISIBLES */
 .controls {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   z-index: 20;
 }
 
@@ -58,8 +66,7 @@ button {
   background: #E30613;
   color: white;
   border: none;
-  padding: 12px 18px;
-  border-radius: 25px;
-  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 20px;
   font-weight: bold;
 }
