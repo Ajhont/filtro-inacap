@@ -13,10 +13,11 @@ video {
 
 #inacapito {
   position: fixed;
-  bottom: 5%;
-  right: 5%;
-  width: 30%;
+  bottom: 3%;
+  right: 3%;
+  width: 40%;
   pointer-events: none;
+  max-width: 250px;
 }
 
 .info {
