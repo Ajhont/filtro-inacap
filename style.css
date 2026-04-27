@@ -5,7 +5,7 @@ body {
   background: black;
 }
 
-/* CONTENEDOR REAL 9:16 */
+/* contenedor */
 .container {
   position: fixed;
   width: 100%;
@@ -13,7 +13,7 @@ body {
   overflow: hidden;
 }
 
-/* VIDEO COMO STORY REAL */
+/* video tipo cover REAL */
 video {
   position: absolute;
   top: 50%;
@@ -21,7 +21,7 @@ video {
   transform: translate(-50%, -50%);
 }
 
-/* HEADER */
+/* header */
 .header {
   position: absolute;
   top: 40px;
@@ -42,23 +42,24 @@ video {
   color: #E30613;
 }
 
-/* INACAPITO */
+/* inacapito más grande */
 #inacapito {
   position: absolute;
-  bottom: -60px;
+  bottom: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70%;
-  max-width: 420px;
+  width: 80%;
+  max-width: 500px;
+  pointer-events: none;
 }
 
-/* BOTONES VISIBLES */
+/* botones */
 .controls {
   position: absolute;
   top: 20px;
   right: 20px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   z-index: 20;
 }
 
@@ -66,7 +67,7 @@ button {
   background: #E30613;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 20px;
+  padding: 12px 18px;
+  border-radius: 25px;
   font-weight: bold;
 }
