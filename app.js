@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
-  "assets/inacapito1.png",
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
@@ -22,13 +22,13 @@ navigator.mediaDevices.getUserMedia({
   video.srcObject = stream;
 });
 
-// cambiar carrera
+// cambiar personaje
 changeBtn.addEventListener("click", () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 });
 
-// compartir
+// compartir (SIN botones)
 shareBtn.addEventListener("click", async () => {
 
   canvas.width = 1080;
@@ -36,21 +36,38 @@ shareBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // dibujar cámara
+  // cámara
   ctx.drawImage(video, 0, 0, 1080, 1920);
 
-  // texto
+  // TEXTO GRANDE
   ctx.fillStyle = "white";
-  ctx.font = "bold 60px Arial";
   ctx.textAlign = "center";
-  ctx.fillText("¿QUÉ ÁREA INACAP ERES?", 540, 120);
 
-  // imagen
+  ctx.font = "bold 90px Arial";
+  ctx.fillText("¿QUÉ ÁREA", 540, 150);
+
+  ctx.fillStyle = "#E30613";
+  ctx.fillText("INACAP", 540, 260);
+
+  ctx.fillStyle = "white";
+  ctx.fillText("ERES?", 540, 370);
+
+  // inacapito
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
-    ctx.drawImage(img, 200, 1100, 700, 700);
+
+    const width = 1000;
+    const height = 1000;
+
+    ctx.drawImage(
+      img,
+      40,
+      1920 - height + 120, // efecto salida desde abajo
+      width,
+      height
+    );
 
     canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
