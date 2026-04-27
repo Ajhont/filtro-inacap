@@ -6,11 +6,11 @@ const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
-  "assets/inacapito6.png",
   "assets/inacapito2.png",
   "assets/inacapito3.png",
   "assets/inacapito4.png",
-  "assets/inacapito5.png"
+  "assets/inacapito5.png",
+  "assets/inacapito6.png"
 ];
 
 let index = 0;
@@ -28,52 +28,43 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// compartir (SIN deformación)
+// COMPARTIR SIN DISTORSIÓN
 shareBtn.addEventListener("click", async () => {
 
-  const videoWidth = video.videoWidth;
-  const videoHeight = video.videoHeight;
+  const vw = video.videoWidth;
+  const vh = video.videoHeight;
 
-  // calcular recorte vertical tipo story
-  const targetRatio = 9 / 16;
-  let newHeight = videoWidth / targetRatio;
+  const canvasWidth = 1080;
+  const canvasHeight = 1920;
 
-  if (newHeight > videoHeight) {
-    newHeight = videoHeight;
-  }
-
-  const offsetY = (videoHeight - newHeight) / 2;
-
-  canvas.width = 1080;
-  canvas.height = 1920;
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
 
   const ctx = canvas.getContext("2d");
 
-  // dibujar cámara recortada (SIN deformar)
-  ctx.drawImage(
-    video,
-    0,
-    offsetY,
-    videoWidth,
-    newHeight,
-    0,
-    0,
-    1080,
-    1920
-  );
+  // COVER REAL (tipo CSS cover)
+  const scale = Math.max(canvasWidth / vw, canvasHeight / vh);
 
-  // TEXTO PRO
-  ctx.fillStyle = "white";
+  const scaledWidth = vw * scale;
+  const scaledHeight = vh * scale;
+
+  const dx = (canvasWidth - scaledWidth) / 2;
+  const dy = (canvasHeight - scaledHeight) / 2;
+
+  ctx.drawImage(video, dx, dy, scaledWidth, scaledHeight);
+
+  // TEXTO CONSISTENTE
   ctx.textAlign = "center";
 
+  ctx.fillStyle = "white";
   ctx.font = "bold 80px Arial";
   ctx.fillText("¿QUÉ ÁREA", 540, 150);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", 540, 240);
+  ctx.fillText("INACAP", 540, 250);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", 540, 330);
+  ctx.fillText("ERES?", 540, 350);
 
   // inacapito
   const img = new Image();
@@ -81,13 +72,13 @@ shareBtn.addEventListener("click", async () => {
 
   img.onload = async () => {
 
-    const width = 1000;
-    const height = 1000;
+    const width = 900;
+    const height = 900;
 
     ctx.drawImage(
       img,
-      40,
-      1920 - height + 180,
+      (canvasWidth - width) / 2,
+      canvasHeight - height + 120,
       width,
       height
     );
