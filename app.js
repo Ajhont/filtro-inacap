@@ -26,27 +26,27 @@ navigator.mediaDevices.getUserMedia({
   };
 });
 
-// ajuste tipo cover (igual que canvas)
+// ajuste tipo cover
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
 
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
+  const sw = window.innerWidth;
+  const sh = window.innerHeight;
 
-  const scale = Math.max(screenW / vw, screenH / vh);
+  const scale = Math.max(sw / vw, sh / vh);
 
   video.style.width = vw * scale + "px";
   video.style.height = vh * scale + "px";
 }
 
-// cambiar personaje
+// cambiar imagen
 changeBtn.addEventListener("click", () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 });
 
-// capturar y compartir
+// capturar
 captureBtn.addEventListener("click", async () => {
 
   const vw = video.videoWidth;
@@ -60,7 +60,6 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // cover real (sin deformar)
   const scale = Math.max(cw / vw, ch / vh);
 
   const sw = vw * scale;
@@ -71,20 +70,32 @@ captureBtn.addEventListener("click", async () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
+  // gradiente superior
+  const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+  gradient.addColorStop(0, "rgba(0,0,0,0.6)");
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, cw, 300);
+
   // texto
   ctx.textAlign = "center";
+  ctx.shadowColor = "black";
+  ctx.shadowBlur = 10;
 
   ctx.fillStyle = "white";
   ctx.font = "bold 80px Arial";
-  ctx.fillText("¿QUÉ ÁREA", 540, 150);
+  ctx.fillText("¿QUÉ ÁREA", 540, 140);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", 540, 250);
+  ctx.fillText("INACAP", 540, 240);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", 540, 350);
+  ctx.fillText("ERES?", 540, 340);
 
-  // inacapito proporcional
+  ctx.shadowBlur = 0;
+
+  // inacapito
   const img = new Image();
   img.src = inacapito.src;
 
