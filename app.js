@@ -15,7 +15,7 @@ const images = [
 
 let index = 0;
 
-// cámara
+// activar cámara
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
 }).then(stream => {
@@ -28,7 +28,7 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// compartir (SIN botones)
+// compartir
 shareBtn.addEventListener("click", async () => {
 
   canvas.width = 1080;
@@ -52,22 +52,27 @@ shareBtn.addEventListener("click", async () => {
   ctx.fillStyle = "white";
   ctx.fillText("ERES?", 540, 370);
 
-  // inacapito
+  // imagen inacapito
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
-    const width = 1000;
-    const height = 1000;
+    const width = 1100;
+    const height = 1100;
 
+    // sale desde abajo real
     ctx.drawImage(
       img,
-      40,
-      1920 - height + 120, // efecto salida desde abajo
+      -50,
+      1920 - height + 250,
       width,
       height
     );
+
+    // máscara inferior (NO deja ver fondo)
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 1780, 1080, 200);
 
     canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
