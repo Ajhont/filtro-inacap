@@ -6,16 +6,16 @@ const changeBtn = document.getElementById("change");
 const shareBtn = document.getElementById("share");
 
 const images = [
-  "assets/inacapito1.png",
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
 
-// activar cámara
+// cámara
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
 }).then(stream => {
@@ -28,51 +28,69 @@ changeBtn.addEventListener("click", () => {
   inacapito.src = images[index];
 });
 
-// compartir
+// compartir (SIN deformación)
 shareBtn.addEventListener("click", async () => {
+
+  const videoWidth = video.videoWidth;
+  const videoHeight = video.videoHeight;
+
+  // calcular recorte vertical tipo story
+  const targetRatio = 9 / 16;
+  let newHeight = videoWidth / targetRatio;
+
+  if (newHeight > videoHeight) {
+    newHeight = videoHeight;
+  }
+
+  const offsetY = (videoHeight - newHeight) / 2;
 
   canvas.width = 1080;
   canvas.height = 1920;
 
   const ctx = canvas.getContext("2d");
 
-  // cámara
-  ctx.drawImage(video, 0, 0, 1080, 1920);
+  // dibujar cámara recortada (SIN deformar)
+  ctx.drawImage(
+    video,
+    0,
+    offsetY,
+    videoWidth,
+    newHeight,
+    0,
+    0,
+    1080,
+    1920
+  );
 
-  // TEXTO GRANDE
+  // TEXTO PRO
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
 
-  ctx.font = "bold 90px Arial";
+  ctx.font = "bold 80px Arial";
   ctx.fillText("¿QUÉ ÁREA", 540, 150);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", 540, 260);
+  ctx.fillText("INACAP", 540, 240);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", 540, 370);
+  ctx.fillText("ERES?", 540, 330);
 
-  // imagen inacapito
+  // inacapito
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = async () => {
 
-    const width = 1100;
-    const height = 1100;
+    const width = 1000;
+    const height = 1000;
 
-    // sale desde abajo real
     ctx.drawImage(
       img,
-      -50,
-      1920 - height + 250,
+      40,
+      1920 - height + 180,
       width,
       height
     );
-
-    // máscara inferior (NO deja ver fondo)
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 1780, 1080, 200);
 
     canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
