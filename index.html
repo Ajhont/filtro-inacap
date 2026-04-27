@@ -4,21 +4,26 @@
   <meta charset="UTF-8">
   <title>Filtro INACAP</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- evitar cache -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 </head>
+
 <body>
 
-  <!-- Cámara -->
   <video id="camera" autoplay playsinline></video>
 
-  <!-- Inacapito -->
+  <!-- inacapito -->
   <img id="inacapito" src="assets/admin.png">
 
-  <!-- Texto -->
+  <!-- texto -->
   <div class="info">Toca la pantalla para cambiar</div>
 
-  <!-- Botón captura -->
- <button id="share">Compartir</button>
-  <!-- Canvas -->
+  <!-- botón -->
+  <button id="share">Compartir</button>
+
   <canvas id="canvas"></canvas>
 
   <script src="app.js"></script>
