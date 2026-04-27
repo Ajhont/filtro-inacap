@@ -4,6 +4,7 @@ body {
   font-family: Arial;
 }
 
+/* cámara */
 video {
   position: fixed;
   width: 100%;
@@ -11,29 +12,39 @@ video {
   object-fit: cover;
 }
 
+/* inacapito GRANDE y bien posicionado */
 #inacapito {
   position: fixed;
-  bottom: 3%;
-  right: 3%;
-  width: 40%;
+  bottom: 2%;
+  right: 2%;
+  width: 45%;
+  max-width: 300px;
   pointer-events: none;
-  max-width: 250px;
 }
 
+/* texto superior */
 .info {
   position: fixed;
-  top: 10px;
+  top: 15px;
   width: 100%;
   text-align: center;
   color: white;
   font-weight: bold;
+  font-size: 16px;
+  text-shadow: 0px 0px 5px black;
 }
 
-#capture {
+/* botón compartir */
+#share {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
-  padding: 10px 20px;
+  background: #E30613;
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
 }
