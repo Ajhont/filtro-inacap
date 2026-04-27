@@ -23,7 +23,7 @@ navigator.mediaDevices.getUserMedia({
   video.onloadedmetadata = () => ajustarVideo();
 });
 
-// 🔥 ZOOM MÁS ABIERTO
+// 🔥 AJUSTE VISUAL (preview)
 function ajustarVideo() {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
@@ -31,7 +31,7 @@ function ajustarVideo() {
   const sw = window.innerWidth;
   const sh = window.innerHeight;
 
-  const scale = Math.max(sw / vw, sh / vh) * 0.75;
+  const scale = Math.max(sw / vw, sh / vh) * 0.85;
 
   video.style.width = vw * scale + "px";
   video.style.height = vh * scale + "px";
@@ -57,7 +57,9 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  const scale = Math.max(cw / vw, ch / vh) * 0.75;
+  // 🔥 COVER PERFECTO (sin barras negras)
+  let scale = Math.max(cw / vw, ch / vh);
+  scale *= 0.85;
 
   const sw = vw * scale;
   const sh = vh * scale;
@@ -65,9 +67,13 @@ captureBtn.addEventListener("click", async () => {
   const dx = (cw - sw) / 2;
   const dy = (ch - sh) / 2;
 
+  // fondo negro total (evita espacios)
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, cw, ch);
+
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // 🔥 CAJA INSTAGRAM
+  // 🔥 CAJA TEXTO
   const boxWidth = 900;
   const boxHeight = 300;
   const boxX = (cw - boxWidth) / 2;
@@ -77,7 +83,6 @@ captureBtn.addEventListener("click", async () => {
   roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
   ctx.fill();
 
-  // TEXTO
   ctx.textAlign = "center";
   ctx.shadowColor = "black";
   ctx.shadowBlur = 15;
@@ -94,7 +99,7 @@ captureBtn.addEventListener("click", async () => {
 
   ctx.shadowBlur = 0;
 
-  // INACAPITO
+  // 🔥 INACAPITO (NO CORTADO)
   const img = new Image();
   img.src = inacapito.src;
 
@@ -105,7 +110,7 @@ captureBtn.addEventListener("click", async () => {
     const height = width * aspect;
 
     const x = (cw - width) / 2;
-    const y = ch - height + 180;
+    const y = ch - height + 80;
 
     ctx.drawImage(img, x, y, width, height);
 
@@ -123,7 +128,7 @@ captureBtn.addEventListener("click", async () => {
   };
 });
 
-// 🔧 RECTÁNGULO REDONDEADO
+// RECTÁNGULO REDONDEADO
 function roundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
