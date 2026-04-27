@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Filtro INACAP</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- evitar cache -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<title>INACAP</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <video id="camera" autoplay playsinline></video>
+<video id="camera" autoplay playsinline></video>
 
-  <!-- inacapito -->
-  <img id="inacapito" src="assets/admin.png">
+<!-- HEADER -->
+<div class="header">
+  <h1>¿QUÉ ÁREA<br><span>INACAP</span><br>ERES?</h1>
+</div>
 
-  <!-- texto -->
-  <div class="info">Toca la pantalla para cambiar</div>
+<!-- INACAPITO -->
+<img id="inacapito" src="assets/admin.png">
 
-  <!-- botón -->
+<!-- BOTONES -->
+<div class="controls">
+  <button id="change">Cambiar</button>
   <button id="share">Compartir</button>
+</div>
 
-  <canvas id="canvas"></canvas>
+<canvas id="canvas"></canvas>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
