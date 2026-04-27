@@ -57,8 +57,7 @@ video {
   line-height: 0.95;
   text-align: center;
   color: white;
-  text-shadow:
-    0 4px 15px rgba(0,0,0,0.9);
+  text-shadow: 0 4px 15px rgba(0,0,0,0.9);
 }
 
 .header span {
@@ -68,11 +67,11 @@ video {
 /* INACAPITO */
 #inacapito {
   position: absolute;
-  bottom: -20px;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: 600px;
+  width: 95%;
+  max-width: 650px;
   pointer-events: none;
 }
 
@@ -102,7 +101,6 @@ video {
   border-radius: 50%;
   width: 55px;
   height: 55px;
-  font-size: 20px;
 }
 
 .main:active {
