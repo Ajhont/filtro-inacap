@@ -15,39 +15,25 @@ const images = [
 
 let index = 0;
 
-// CAMARA
+// 🎥 CAMARA
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
-}).then(stream => {
+})
+.then(stream => {
   video.srcObject = stream;
-  video.onloadedmetadata = () => ajustarVideo();
+})
+.catch(err => {
+  alert("No se pudo acceder a la cámara");
 });
 
-// PREVIEW (más abierto)
-function ajustarVideo() {
-  const vw = video.videoWidth;
-  const vh = video.videoHeight;
-
-  const sw = window.innerWidth;
-  const sh = window.innerHeight;
-
-  const scale = Math.max(sw / vw, sh / vh) * 0.9;
-
-  video.style.width = vw * scale + "px";
-  video.style.height = vh * scale + "px";
-}
-
-// CAMBIAR
-changeBtn.addEventListener("click", () => {
+// 🔄 CAMBIAR
+changeBtn.onclick = () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
-});
+};
 
-// CAPTURA
-captureBtn.addEventListener("click", async () => {
-
-  const vw = video.videoWidth;
-  const vh = video.videoHeight;
+// 📸 CAPTURAR
+captureBtn.onclick = () => {
 
   const cw = 1080;
   const ch = 1920;
@@ -57,85 +43,57 @@ captureBtn.addEventListener("click", async () => {
 
   const ctx = canvas.getContext("2d");
 
-  // 🔥 SCALE MÁS GRANDE PARA ELIMINAR NEGRO
-  let scale = Math.max(cw / vw, ch / vh);
-  scale *= 1.15; // 👈 clave (overfill)
+  // 🔥 DIBUJAR VIDEO (cover real)
+  ctx.drawImage(video, 0, 0, cw, ch);
 
-  const sw = vw * scale;
-  const sh = vh * scale;
-
-  // 👇 mover levemente hacia arriba para compensar IG
-  const dx = (cw - sw) / 2;
-  const dy = (ch - sh) / 2 - 120;
-
-  ctx.drawImage(video, dx, dy, sw, sh);
-
-  // HEADER
-  const boxWidth = 900;
-  const boxHeight = 300;
-  const boxX = (cw - boxWidth) / 2;
-  const boxY = 80;
-
-  ctx.fillStyle = "rgba(0,0,0,0.45)";
-  roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
-  ctx.fill();
+  // 🔥 CAJA TEXTO
+  ctx.fillStyle = "rgba(0,0,0,0.4)";
+  ctx.fillRect(100, 60, 880, 260);
 
   ctx.textAlign = "center";
-  ctx.shadowColor = "black";
-  ctx.shadowBlur = 15;
 
   ctx.fillStyle = "white";
-  ctx.font = "bold 75px Arial";
-  ctx.fillText("¿QUÉ ÁREA", cw / 2, boxY + 90);
+  ctx.font = "bold 70px Arial";
+  ctx.fillText("¿QUÉ ÁREA", cw/2, 140);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", cw / 2, boxY + 180);
+  ctx.fillText("INACAP", cw/2, 230);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", cw / 2, boxY + 270);
+  ctx.fillText("ERES?", cw/2, 320);
 
-  ctx.shadowBlur = 0;
-
-  // INACAPITO (más grande y seguro)
+  // 🔥 INACAPITO
   const img = new Image();
   img.src = inacapito.src;
 
-  img.onload = async () => {
+  img.onload = () => {
 
-    const width = 1200; // 👈 más grande
-    const aspect = img.height / img.width;
-    const height = width * aspect;
+    const width = 900;
+    const height = width * (img.height / img.width);
 
-    const x = (cw - width) / 2;
-    const y = ch - height + 120; // 👈 sube un poco
+    ctx.drawImage(
+      img,
+      (cw - width)/2,
+      ch - height,
+      width,
+      height
+    );
 
-    ctx.drawImage(img, x, y, width, height);
+    // 🔥 SHARE
+    canvas.toBlob(blob => {
 
-    canvas.toBlob(async (blob) => {
       const file = new File([blob], "inacap.png", { type: "image/png" });
 
       if (navigator.share) {
-        await navigator.share({
+        navigator.share({
           files: [file],
-          title: "INACAP",
-          text: "Descubre tu área 🚀"
+          title: "INACAP"
         });
+      } else {
+        alert("No compatible con compartir");
       }
-    });
-  };
-});
 
-// RECT
-function roundRect(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-  ctx.closePath();
-}
+    });
+
+  };
+};
