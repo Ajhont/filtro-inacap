@@ -6,33 +6,29 @@ const changeBtn = document.getElementById("change");
 const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
 
-// 🎥 CAMARA
+// CAMARA
 navigator.mediaDevices.getUserMedia({
   video: { facingMode: "user" }
-})
-.then(stream => {
+}).then(stream => {
   video.srcObject = stream;
-})
-.catch(err => {
-  alert("No se pudo acceder a la cámara");
 });
 
-// 🔄 CAMBIAR
+// CAMBIAR
 changeBtn.onclick = () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 };
 
-// 📸 CAPTURAR
+// CAPTURA
 captureBtn.onclick = () => {
 
   const cw = 1080;
@@ -43,43 +39,66 @@ captureBtn.onclick = () => {
 
   const ctx = canvas.getContext("2d");
 
-  // 🔥 DIBUJAR VIDEO (cover real)
-  ctx.drawImage(video, 0, 0, cw, ch);
+  // 🔥 CALCULO COVER REAL (NO DISTORSIONA)
+  const vw = video.videoWidth;
+  const vh = video.videoHeight;
 
-  // 🔥 CAJA TEXTO
-  ctx.fillStyle = "rgba(0,0,0,0.4)";
-  ctx.fillRect(100, 60, 880, 260);
+  const scale = Math.max(cw / vw, ch / vh);
+
+  const sw = vw * scale;
+  const sh = vh * scale;
+
+  const dx = (cw - sw) / 2;
+  const dy = (ch - sh) / 2;
+
+  ctx.drawImage(video, dx, dy, sw, sh);
+
+  // 🔥 SAFE AREA SUPERIOR (Instagram)
+  const safeTop = 120;
+
+  // CAJA TEXTO
+  const boxWidth = 900;
+  const boxHeight = 260;
+  const boxX = (cw - boxWidth) / 2;
+  const boxY = safeTop;
+
+  ctx.fillStyle = "rgba(0,0,0,0.45)";
+  roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
+  ctx.fill();
 
   ctx.textAlign = "center";
+  ctx.shadowColor = "black";
+  ctx.shadowBlur = 10;
 
   ctx.fillStyle = "white";
   ctx.font = "bold 70px Arial";
-  ctx.fillText("¿QUÉ ÁREA", cw/2, 140);
+  ctx.fillText("¿QUÉ ÁREA", cw/2, boxY + 80);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", cw/2, 230);
+  ctx.fillText("INACAP", cw/2, boxY + 160);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", cw/2, 320);
+  ctx.fillText("ERES?", cw/2, boxY + 240);
 
-  // 🔥 INACAPITO
+  ctx.shadowBlur = 0;
+
+  // 🔥 SAFE AREA INFERIOR (Instagram UI)
+  const safeBottom = 250;
+
+  // INACAPITO
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = () => {
 
-    const width = 900;
+    const width = 1000;
     const height = width * (img.height / img.width);
 
-    ctx.drawImage(
-      img,
-      (cw - width)/2,
-      ch - height,
-      width,
-      height
-    );
+    const x = (cw - width) / 2;
+    const y = ch - height - safeBottom + 80;
 
-    // 🔥 SHARE
+    ctx.drawImage(img, x, y, width, height);
+
     canvas.toBlob(blob => {
 
       const file = new File([blob], "inacap.png", { type: "image/png" });
@@ -89,11 +108,23 @@ captureBtn.onclick = () => {
           files: [file],
           title: "INACAP"
         });
-      } else {
-        alert("No compatible con compartir");
       }
 
     });
-
   };
 };
+
+// RECT
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
