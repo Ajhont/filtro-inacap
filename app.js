@@ -6,29 +6,33 @@ const changeBtn = document.getElementById("change");
 const captureBtn = document.getElementById("capture");
 
 const images = [
-  "assets/inacapito2.png",
-  "assets/inacapito3.png",
-  "assets/inacapito4.png",
-  "assets/inacapito5.png",
-  "assets/inacapito6.png"
+  "assets/admin.png",
+  "assets/mecanica.png",
+  "assets/gastronomia.png",
+  "assets/informatica.png",
+  "assets/logistica.png"
 ];
 
 let index = 0;
 
-// CAMARA
+// 🎥 CAMARA MÁS ABIERTA (clave)
 navigator.mediaDevices.getUserMedia({
-  video: { facingMode: "user" }
+  video: {
+    facingMode: "user",
+    width: { ideal: 1920 },
+    height: { ideal: 1080 }
+  }
 }).then(stream => {
   video.srcObject = stream;
 });
 
-// CAMBIAR
+// 🔄 CAMBIAR
 changeBtn.onclick = () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 };
 
-// CAPTURA
+// 📸 CAPTURA
 captureBtn.onclick = () => {
 
   const cw = 1080;
@@ -39,11 +43,11 @@ captureBtn.onclick = () => {
 
   const ctx = canvas.getContext("2d");
 
-  // 🔥 CALCULO COVER REAL (NO DISTORSIONA)
   const vw = video.videoWidth;
   const vh = video.videoHeight;
 
-  const scale = Math.max(cw / vw, ch / vh);
+  // 🔥 MÁS ABIERTO (zoom out)
+  const scale = Math.min(cw / vw, ch / vh) * 1.05;
 
   const sw = vw * scale;
   const sh = vh * scale;
@@ -53,14 +57,14 @@ captureBtn.onclick = () => {
 
   ctx.drawImage(video, dx, dy, sw, sh);
 
-  // 🔥 SAFE AREA SUPERIOR (Instagram)
-  const safeTop = 120;
+  // =========================
+  // 🟥 CAJA TEXTO RESPONSIVA
+  // =========================
+  const boxWidth = cw * 0.75; // 🔥 antes fija → ahora proporcional
+  const boxHeight = ch * 0.14;
 
-  // CAJA TEXTO
-  const boxWidth = 900;
-  const boxHeight = 260;
   const boxX = (cw - boxWidth) / 2;
-  const boxY = safeTop;
+  const boxY = 120;
 
   ctx.fillStyle = "rgba(0,0,0,0.45)";
   roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
@@ -68,39 +72,39 @@ captureBtn.onclick = () => {
 
   ctx.textAlign = "center";
   ctx.shadowColor = "black";
-  ctx.shadowBlur = 10;
+  ctx.shadowBlur = 12;
 
   ctx.fillStyle = "white";
-  ctx.font = "bold 70px Arial";
-  ctx.fillText("¿QUÉ ÁREA", cw/2, boxY + 80);
+  ctx.font = "bold 65px Arial";
+  ctx.fillText("¿QUÉ ÁREA", cw/2, boxY + 70);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", cw/2, boxY + 160);
+  ctx.fillText("INACAP", cw/2, boxY + 140);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", cw/2, boxY + 240);
+  ctx.fillText("ERES?", cw/2, boxY + 210);
 
   ctx.shadowBlur = 0;
 
-  // 🔥 SAFE AREA INFERIOR (Instagram UI)
-  const safeBottom = 250;
-
-  // INACAPITO
+  // =========================
+  // 🤖 INACAPITO DESDE ABAJO
+  // =========================
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = () => {
 
-    const width = 1000;
+    const width = cw * 0.95; // más grande
     const height = width * (img.height / img.width);
 
     const x = (cw - width) / 2;
-    const y = ch - height - safeBottom + 80;
+
+    // 🔥 CLAVE: parte fuera del canvas
+    const y = ch - height * 0.65;
 
     ctx.drawImage(img, x, y, width, height);
 
     canvas.toBlob(blob => {
-
       const file = new File([blob], "inacap.png", { type: "image/png" });
 
       if (navigator.share) {
@@ -109,12 +113,11 @@ captureBtn.onclick = () => {
           title: "INACAP"
         });
       }
-
     });
   };
 };
 
-// RECT
+// 🔧 RECT
 function roundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
