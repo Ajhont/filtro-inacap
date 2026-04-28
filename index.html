@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>INACAP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filtro INACAP</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,18 +13,19 @@
 
   <video id="camera" autoplay playsinline></video>
 
-  <div class="header">
-    <div class="header-bg">
-      <h1>
-        ¿QUÉ ÁREA<br>
-        <span>INACAP</span><br>
-        ERES?
-      </h1>
+  <!-- TEXTO -->
+  <div class="overlay-text">
+    <div class="text-box">
+      <span>¿QUÉ ÁREA</span>
+      <span class="inacap">INACAP</span>
+      <span>ERES?</span>
     </div>
   </div>
 
+  <!-- INACAPITO -->
   <img id="inacapito" src="assets/inacapito1.png">
 
+  <!-- BOTONES -->
   <div class="controls">
     <button id="change">🔄</button>
     <button id="capture">📸</button>
@@ -35,5 +36,6 @@
 <canvas id="canvas"></canvas>
 
 <script src="app.js"></script>
+
 </body>
 </html>
