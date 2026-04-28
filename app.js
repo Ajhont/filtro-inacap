@@ -15,7 +15,7 @@ const images = [
 
 let index = 0;
 
-// 🎥 CAMARA MÁS ABIERTA (clave)
+// 🎥 CAMARA MÁS ABIERTA REAL
 navigator.mediaDevices.getUserMedia({
   video: {
     facingMode: "user",
@@ -26,13 +26,13 @@ navigator.mediaDevices.getUserMedia({
   video.srcObject = stream;
 });
 
-// 🔄 CAMBIAR
+// 🔄 CAMBIO
 changeBtn.onclick = () => {
   index = (index + 1) % images.length;
   inacapito.src = images[index];
 };
 
-// 📸 CAPTURA
+// 📸 CAPTURA OPTIMIZADA IG
 captureBtn.onclick = () => {
 
   const cw = 1080;
@@ -46,8 +46,8 @@ captureBtn.onclick = () => {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
 
-  // 🔥 MÁS ABIERTO (zoom out)
-  const scale = Math.min(cw / vw, ch / vh) * 1.05;
+  // 🔥 ZOOM OUT REAL
+  const scale = Math.min(cw / vw, ch / vh) * 0.95;
 
   const sw = vw * scale;
   const sh = vh * scale;
@@ -58,13 +58,19 @@ captureBtn.onclick = () => {
   ctx.drawImage(video, dx, dy, sw, sh);
 
   // =========================
-  // 🟥 CAJA TEXTO RESPONSIVA
+  // 📐 ZONA SEGURA INSTAGRAM
   // =========================
-  const boxWidth = cw * 0.75; // 🔥 antes fija → ahora proporcional
-  const boxHeight = ch * 0.14;
+  const safeTop = 150;
+  const safeBottom = 300;
+
+  // =========================
+  // 🟥 TEXTO
+  // =========================
+  const boxWidth = cw * 0.75;
+  const boxHeight = ch * 0.13;
 
   const boxX = (cw - boxWidth) / 2;
-  const boxY = 120;
+  const boxY = safeTop;
 
   ctx.fillStyle = "rgba(0,0,0,0.45)";
   roundRect(ctx, boxX, boxY, boxWidth, boxHeight, 40);
@@ -72,35 +78,35 @@ captureBtn.onclick = () => {
 
   ctx.textAlign = "center";
   ctx.shadowColor = "black";
-  ctx.shadowBlur = 12;
+  ctx.shadowBlur = 10;
 
   ctx.fillStyle = "white";
-  ctx.font = "bold 65px Arial";
-  ctx.fillText("¿QUÉ ÁREA", cw/2, boxY + 70);
+  ctx.font = "bold 60px Arial";
+  ctx.fillText("¿QUÉ ÁREA", cw/2, boxY + 60);
 
   ctx.fillStyle = "#E30613";
-  ctx.fillText("INACAP", cw/2, boxY + 140);
+  ctx.fillText("INACAP", cw/2, boxY + 120);
 
   ctx.fillStyle = "white";
-  ctx.fillText("ERES?", cw/2, boxY + 210);
+  ctx.fillText("ERES?", cw/2, boxY + 180);
 
   ctx.shadowBlur = 0;
 
   // =========================
-  // 🤖 INACAPITO DESDE ABAJO
+  // 🤖 INACAPITO (SAFE AREA)
   // =========================
   const img = new Image();
   img.src = inacapito.src;
 
   img.onload = () => {
 
-    const width = cw * 0.95; // más grande
+    const width = cw * 0.85;
     const height = width * (img.height / img.width);
 
     const x = (cw - width) / 2;
 
-    // 🔥 CLAVE: parte fuera del canvas
-    const y = ch - height * 0.65;
+    // 🔥 CLAVE: subirlo para que IG no lo corte
+    const y = ch - height - safeBottom + 80;
 
     ctx.drawImage(img, x, y, width, height);
 
