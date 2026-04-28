@@ -88,7 +88,7 @@ captureBtn.onclick = () => {
     const x = (cw - width) / 2;
 
     // 🔥 CLAVE: MÁS ABAJO PARA “ASOMARSE”
-    const y = ch - height - safeBottom + 260;
+    const y = ch - height - safeBottom + 290;
 
     ctx.drawImage(img, x, y, width, height);
 
