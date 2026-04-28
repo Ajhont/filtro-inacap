@@ -1,17 +1,17 @@
 body {
   margin: 0;
-  overflow: hidden;
-  font-family: Arial;
   background: black;
+  font-family: Arial, sans-serif;
 }
 
 .container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* VIDEO FULL COVER */
+/* VIDEO FULL */
 video {
   position: absolute;
   width: 100%;
@@ -19,59 +19,59 @@ video {
   object-fit: cover;
 }
 
-/* HEADER */
-.header {
+/* TEXTO */
+.overlay-text {
   position: absolute;
-  top: 0;
+  top: 8%;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.header-bg {
-  margin-top: 40px;
-  padding: 16px 24px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(6px);
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 38px;
-  line-height: 0.95;
+.text-box {
+  background: rgba(0,0,0,0.4);
+  padding: 12px 24px;
+  border-radius: 25px;
   text-align: center;
-  color: white;
+  backdrop-filter: blur(8px);
 }
 
-.header span {
+.text-box span {
+  display: block;
+  color: white;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.text-box .inacap {
   color: #E30613;
 }
 
-/* INACAPITO PEGADO ABAJO */
+/* INACAPITO */
 #inacapito {
   position: absolute;
-  bottom: -5px;
+  bottom: -5%; /* 🔥 se “sale” */
   left: 50%;
   transform: translateX(-50%);
-  width: 95%;
-  max-width: 600px;
+  width: 75%;
+  pointer-events: none;
 }
 
 /* BOTONES */
 .controls {
   position: absolute;
-  bottom: 25px;
+  bottom: 22%;
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 20px;
 }
 
-button {
+.controls button {
   width: 70px;
   height: 70px;
   border-radius: 50%;
   border: none;
-  font-size: 28px;
+  font-size: 26px;
 }
